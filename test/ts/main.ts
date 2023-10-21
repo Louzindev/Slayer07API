@@ -1,0 +1,1 @@
+import Slayer from '../../src/index';

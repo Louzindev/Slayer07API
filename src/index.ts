@@ -29,10 +29,4 @@ export {
     SlayerWorker
 }
 
-export default {
-    SlayerConnector,
-    SlayerWorker,
-    PACKET_TYPE,
-    RESPONSE_CODE,
-    WORKER_STATUS
-}
+export default SlayerWorker;

@@ -1,3 +1,7 @@
+namespace Slayer07 {
+
+}
+
 enum RESPONSE_CODE {
     SUCCESS = 1,
     FAILURE = 2
