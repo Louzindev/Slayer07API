@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "incremental": true, /* Enable incremental compilation */
+        "target": "es5", /* Specify ECMAScript target version: */
+        "module": "esnext", /* 'none', 'commonjs', 'amd', 'system', etc */
+        "declaration": true, /* Concatenate & emit output to single file.*/
+        "outDir": "dist/esm", /* Redirect output to the directory. */
+        "esModuleInterop": true, /* Enables intero between CommonJS and ES */
+        "skipLibCheck": true, /* Skip type checking of declaration files. */
+        "moduleResolution": "node"
+    },
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

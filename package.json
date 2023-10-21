@@ -1,0 +1,21 @@
+{
+  "name": "slayer07",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "scripts": {
+    "build:esm": "npx tsc",
+    "build:csj": "npx tsc --module commonjs --outDir dist/cjs",
+    "build": "npm run build:esm && npm run build:csj",
+    "clean": "rm -rf dist && mkdir dist",
+    "prepare": "npm run clean && npm run build"
+  },
+  "author": "KriegerDev",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.13.0",
+    "ws": "^8.14.2"
+  }
+}
