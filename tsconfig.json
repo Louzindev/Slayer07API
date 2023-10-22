@@ -1,8 +1,8 @@
 {
     "compilerOptions": {
         "incremental": true, /* Enable incremental compilation */
-        "target": "es5", /* Specify ECMAScript target version: */
-        "module": "esnext", /* 'none', 'commonjs', 'amd', 'system', etc */
+        "target": "ES2015", /* Specify ECMAScript target version: */
+        "module": "ES2015", /* 'none', 'commonjs', 'amd', 'system', etc */
         "declaration": true, /* Concatenate & emit output to single file.*/
         "outDir": "dist/esm", /* Redirect output to the directory. */
         "esModuleInterop": true, /* Enables intero between CommonJS and ES */

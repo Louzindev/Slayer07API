@@ -8,7 +8,8 @@ import {
     IMassReply,
     IMassBan,
     IMassBanResponse,
-    WORKER_STATUS
+    WORKER_STATUS,
+    IMassSend
 } from './types';
 
 import ws from 'ws';
@@ -76,6 +77,17 @@ class SlayerWorker extends lib.Client {
                     }
                     ws.send(JSON.stringify(response));
 
+                } else if (packet.type == PACKET_TYPE.MASSSEND) {
+                    console.log("Received mass send request");
+                    const reply: IMassSend = packet.data;
+
+                    ws.send(JSON.stringify({
+                        type: PACKET_TYPE.MASSSEND,
+                        data: info
+                    }));
+
+                    this.sendMsg(reply.guildId, reply.channelId, reply.content);
+
                 } else if (packet.type == PACKET_TYPE.MASSREPLY) {
                     console.log("Received mass reply request");
                     const reply: IMassReply = packet.data;
@@ -103,6 +115,7 @@ class SlayerWorker extends lib.Client {
     }
 
     public async sendMsg(guildId: string | undefined, channelId: string | undefined, message: string) {
+        if (this.workerStatus == WORKER_STATUS.BUSY) return;
         try {
             if (guildId === undefined || channelId === undefined) {
                 return;
@@ -117,6 +130,7 @@ class SlayerWorker extends lib.Client {
     }
 
     public async msgReply(guildId: string | undefined, channelId: string | undefined, msgId: string | undefined, content: string) {
+        if (this.workerStatus == WORKER_STATUS.BUSY) return;
         try {
             if (guildId === undefined || channelId === undefined || msgId === undefined) {
                 return;
@@ -133,8 +147,11 @@ class SlayerWorker extends lib.Client {
     }
 
     public async massban(id_whitelist: string[], guildId: string, workersCount: number, workerPart: number | undefined) {
+        if (this.workerStatus == WORKER_STATUS.BUSY) return;
         try {
-            // Indepent guild information
+
+            this.workerStatus = WORKER_STATUS.BUSY;
+
             const guild = await this.guilds.fetch(guildId);
             const membersFetch = await guild.members.fetch();
             const memberArray = Array.from(membersFetch);
@@ -142,11 +159,13 @@ class SlayerWorker extends lib.Client {
             const members = group;
 
             if (members === undefined) {
+                this.workerStatus = WORKER_STATUS.FREE;
                 return {
                     "code": RESPONSE_CODE.FAILURE,
                     "data": "members undefined value"
                 };
             }
+
             let membersBanned = 0;
             let membersFailed = 0;
             const totalMembersToBan = members.length;
@@ -179,6 +198,7 @@ class SlayerWorker extends lib.Client {
                 membersFailed: membersFailed
             }
 
+            this.workerStatus = WORKER_STATUS.FREE;
             console.log(`${JSON.stringify(massbanResponse, null, 2)}`);
         } catch (err) {
             console.error(err);
