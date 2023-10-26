@@ -124,12 +124,12 @@ class SlayerConnector {
           clearTimeout(timeout);
           const received = JSON.parse(event.data.toString());
           const info: IInfo = received.data;
-          if(this._workers.length > 0) {
-            for (const worker of this.workers) {
+          if (this._workers.length > 0) {
+            for (const worker of this._workers) {
               if (
-                  worker.workerId == info.workerId ||
-                  worker.workerDiscordId == info.workerDiscordId ||
-                  worker.workerToken == info.workerToken
+                worker.workerId == info.workerId ||
+                worker.workerDiscordId == info.workerDiscordId ||
+                worker.workerToken == info.workerToken
               ) {
                 reject(new Error("Worker already exists"));
               } else {
