@@ -135,7 +135,7 @@ class SlayerConnector {
               } else {
                 info.workerHost = _host;
                 info.workerPort = _port;
-                this.workers.push(info);
+                this._workers.push(info);
                 socket.close();
                 resolve(info);
               }
@@ -143,7 +143,7 @@ class SlayerConnector {
           } else {
             info.workerHost = _host;
             info.workerPort = _port;
-            this.workers.push(info);
+            this._workers.push(info);
             socket.close();
             resolve(info);
           }
