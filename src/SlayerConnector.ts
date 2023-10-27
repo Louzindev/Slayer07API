@@ -127,28 +127,25 @@ class SlayerConnector {
           if (this._workers.length > 0) {
             for (const worker of this._workers) {
               if (
-                worker.workerId == info.workerId ||
-                worker.workerDiscordId == info.workerDiscordId ||
-                worker.workerToken == info.workerToken
+                  worker.workerId == info.workerId ||
+                  worker.workerDiscordId == info.workerDiscordId ||
+                  worker.workerToken == info.workerToken
               ) {
-                reject(new Error("Worker already exists"));
-              } else {
-                info.workerHost = _host;
-                info.workerPort = _port;
-                this._workers.push(info);
-                socket.close();
-                resolve(info);
+                return reject(new Error("Worker already exists"));
               }
             }
+            info.workerHost = _host;
+            info.workerPort = _port;
+            this._workers.push(info);
+            socket.close();
+            return resolve(info);
           } else {
             info.workerHost = _host;
             info.workerPort = _port;
             this._workers.push(info);
             socket.close();
-            resolve(info);
+            return resolve(info);
           }
-
-
 
         });
       } catch (err) {
